@@ -1,6 +1,7 @@
 #include "dxl.h"
 #include "imu.h"
 #include "utils.h"
+#include "func.h"
 
 #if REMOTE
 #include <sstream>
@@ -11,9 +12,9 @@ void minmax_swing();
 
 void setup() {
   // put your setup code here, to run once:
-  DEBUG_SERIAL.begin(9600);
+  DEBUG_SERIAL.begin(115200);
   delay(1000);
-  BLUETOOTH_SERIAL.begin(9600);
+  BLUETOOTH_SERIAL.begin(115200);
   delay(1000);
 
   dxl_setup();
@@ -24,8 +25,8 @@ void setup() {
   imu_setup();
   imu_calibration(MAG_CALI_DISABLE);
 
-  initialize_joint_positions(arm_joint_ids, ARM_JOINT_MIN_POS);
-  initialize_joint_positions(hand_joint_ids, HAND_JOINT_MIN_POS);
+  initialize_joint_positions(arm_joint_ids, ARM_JOINT_INITIAL_POS);
+  initialize_joint_positions(hand_joint_ids, HAND_JOINT_INITIAL_POS);
   delay(2000);
 
   print_joint_positions();
@@ -34,16 +35,16 @@ void setup() {
 void loop() {
   //put your main code here, to run repeatedly:
   #if REMOTE
-
-  String input_str = "";
-  char input_char;
+  String input_str = "";    
   if (BLUETOOTH_SERIAL.available()) {
     while (BLUETOOTH_SERIAL.available()) {
-      input_char = BLUETOOTH_SERIAL.read();
-      input_str += input_char;
+      input_str += BLUETOOTH_SERIAL.read();
     }
+    processBTSerial(input_str, ' ');
   }
-  
+  else {
+    delay(1);
+  }  
   #else
 
   if (imu_update()) {

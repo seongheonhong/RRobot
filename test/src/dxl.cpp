@@ -4,8 +4,8 @@
 Dynamixel dxl(PIN_RTS);
 
 void dxl_setup() {
-  DXL_SERIAL.begin(3000000, SERIAL_HALF_DUPLEX);
-  dxl.attach(DXL_SERIAL, 3000000);
+  DXL_SERIAL.begin(DXL_SERIAL_BAUDRATE, SERIAL_8N1_HALF_DUPLEX);
+  dxl.attach(DXL_SERIAL, DXL_SERIAL_BAUDRATE);
   for (uint8_t id: joint_ids) {
     dxl.addModel<DxlModel::X>(id);
   }
@@ -70,4 +70,13 @@ void print_joint_positions() {
     dxl.verbose(id);
   }
   DEBUG_SERIAL.println();
+}
+
+void set_joint_operating_modes(){
+  for (uint8_t id: arm_joint_ids){
+    dxl.operatingMode(id, 0x03);  
+  }
+  for (uint8_t id: hand_joint_ids){
+    dxl.operatingMode(id, 0x03);  
+  }    
 }
