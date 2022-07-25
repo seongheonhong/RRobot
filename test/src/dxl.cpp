@@ -36,9 +36,9 @@ void set_dxl_parameters() {
 
 void set_joint_position_limit(std::vector<uint8_t> id_set, int min, int max) {
   for (uint8_t id: id_set) {
+    dxl.torqueEnable(id, false);
     dxl.minPositionLimit(id, min);
-    dxl.maxPositionLimit(id, max);
-    dxl.torqueEnable(id, true);
+    dxl.maxPositionLimit(id, max);    
     dxl.verbose(id);
     delay(10);
   }
@@ -46,6 +46,7 @@ void set_joint_position_limit(std::vector<uint8_t> id_set, int min, int max) {
 
 void initialize_joint_positions(std::vector<uint8_t> id_set, int position) {
   for (uint8_t id: id_set) {
+    dxl.torqueEnable(id, true);
     dxl.goalPosition(id, position);
     dxl.verbose(id);
     delay(10);

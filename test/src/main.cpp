@@ -8,37 +8,51 @@
 #include <vector>
 #endif
 
+const uint8_t btGndPin = 12;
+const uint8_t btPwrPin = 11;
+
 void minmax_swing();
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(btGndPin, INPUT);
+  pinMode(btPwrPin, INPUT);  
+
   DEBUG_SERIAL.begin(115200);
   delay(1000);
   BLUETOOTH_SERIAL.begin(115200);
   delay(1000);
 
-  dxl_setup();
+  DEBUG_SERIAL.println("CP0");
+  dxl_setup();  
   set_dxl_parameters();
   set_joint_position_limit(arm_joint_ids, ARM_JOINT_MIN_POS, ARM_JOINT_MAX_POS);
   set_joint_position_limit(hand_joint_ids, HAND_JOINT_MIN_POS, HAND_JOINT_MAX_POS);
 
+  DEBUG_SERIAL.println("CP1");
   imu_setup();
   imu_calibration(MAG_CALI_DISABLE);
+  
+  print_joint_positions();  
+  delay(2000);
 
   initialize_joint_positions(arm_joint_ids, ARM_JOINT_INITIAL_POS);
   initialize_joint_positions(hand_joint_ids, HAND_JOINT_INITIAL_POS);
   delay(2000);
 
-  print_joint_positions();
+  
 }
 
 void loop() {
   //put your main code here, to run repeatedly:
   #if REMOTE
   String input_str = "";    
+  char ser_read;
   if (BLUETOOTH_SERIAL.available()) {
     while (BLUETOOTH_SERIAL.available()) {
-      input_str += BLUETOOTH_SERIAL.read();
+      // ser_read = BLUETOOTH_SERIAL.read();
+      // input_str += ser_read;
+      input_str = BLUETOOTH_SERIAL.readStringUntil('\n');
     }
     processBTSerial(input_str, ' ');
   }

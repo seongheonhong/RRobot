@@ -3,4 +3,3 @@
 #include <vector>
 
 void processBTSerial(String serialRead, char delimiter);
-void process_command();

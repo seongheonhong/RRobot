@@ -6,11 +6,11 @@
 
 #define BLUETOOTH_SERIAL Serial3
 
-#if REMOTE
-#define DEBUG_SERIAL BLUETOOTH_SERIAL
-#else
+
 #define DEBUG_SERIAL Serial
-#endif
+
+#define DEBUG_SERIAL Serial
+
 
 #define ARM_JOINT_MIN_POS       512
 #define ARM_JOINT_MAX_POS       3096
