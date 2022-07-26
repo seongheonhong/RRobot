@@ -15,6 +15,7 @@ void minmax_swing();
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(trigger_pins[0], OUTPUT);
   pinMode(btGndPin, INPUT);
   pinMode(btPwrPin, INPUT);  
 
@@ -28,6 +29,7 @@ void setup() {
   set_dxl_parameters();
   set_joint_position_limit(arm_joint_ids, ARM_JOINT_MIN_POS, ARM_JOINT_MAX_POS);
   set_joint_position_limit(hand_joint_ids, HAND_JOINT_MIN_POS, HAND_JOINT_MAX_POS);
+  set_joint_position_limit(rotator_ids, ROTATOR_MIN_POS, ROTATOR_MAX_POS);
 
   DEBUG_SERIAL.println("CP1");
   imu_setup();
@@ -38,6 +40,9 @@ void setup() {
 
   initialize_joint_positions(arm_joint_ids, ARM_JOINT_INITIAL_POS);
   initialize_joint_positions(hand_joint_ids, HAND_JOINT_INITIAL_POS);
+  DEBUG_SERIAL.println("CP4");
+  initialize_joint_positions(rotator_ids, ROTATOR_MIN_POS+1);
+  DEBUG_SERIAL.println("CP5");
   delay(2000);
 
   

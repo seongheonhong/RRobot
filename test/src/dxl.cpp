@@ -14,22 +14,36 @@ void dxl_setup() {
   bool connected = true;
   for (uint8_t id: joint_ids) {
     if (!dxl.ping(id)) { connected = false; break; }
+    dxl.torqueEnable(id, false);
   }
 
   if (connected) {
     DEBUG_SERIAL.println("DXL setup done!");
   } else {
     DEBUG_SERIAL.println("DXL setup failed!");
-  }
+  }    
 }
 
 void set_dxl_parameters() {
-  for (uint8_t id: joint_ids) {
+  for (uint8_t id: hand_joint_ids) {
     dxl.positionPGain(id, 400);
     dxl.positionDGain(id, 500);
     dxl.positionIGain(id, 40);
     dxl.profileVelocity(id, 300);
     dxl.profileAcceleration(id, 300);
+    delay(10);
+  }
+  for (uint8_t id: arm_joint_ids) {
+    dxl.positionPGain(id, 400);
+    dxl.positionDGain(id, 500);
+    dxl.positionIGain(id, 40);
+    dxl.profileVelocity(id, 300);
+    dxl.profileAcceleration(id, 300);
+    delay(10);
+  }
+  for (uint8_t id: rotator_ids) {
+    dxl.positionPGain(id, 1600);    
+    dxl.positionIGain(id, 120);    
     delay(10);
   }
 }
@@ -79,5 +93,11 @@ void set_joint_operating_modes(){
   }
   for (uint8_t id: hand_joint_ids){
     dxl.operatingMode(id, 0x03);  
+  }    
+  for (uint8_t id: rotator_ids){
+    dxl.operatingMode(id, 0x03);  
+  }    
+  for (uint8_t id: pulley_ids){
+    dxl.operatingMode(id, 0x10);  
   }    
 }

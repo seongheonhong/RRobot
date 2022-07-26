@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<string> command_set = {"pos", "aim", "l"};
+vector<string> command_set = {"pos", "aim", "l", "w"};
 vector<int16_t> command_idx;
 vector<string> command_vec;
 string _substring;
@@ -61,9 +61,21 @@ void process_command(string serRead, char delimiter, vector<int16_t> idx, vector
         }
         else if (cmd_vec[i].compare("l") == 0){            
             digitalWrite(trigger_pins[id], HIGH);
-            delay(200);
+            delay(100);  
             digitalWrite(trigger_pins[id], LOW);
-        }                
+        }
+        else if (cmd_vec[i].compare("w") == 0){
+            dxl.torqueEnable(rotator_ids[id], true);
+            dxl.goalPosition(rotator_ids[id], ROTATOR_MIN_POS);
+            delay(500);
+            dxl.torqueEnable(pulley_ids[id], true);
+            delay(10);
+            dxl.goalPwm(pulley_ids[id], -885);
+            delay(8000);
+            dxl.goalPwm(pulley_ids[id], 0);
+            dxl.torqueEnable(pulley_ids[id], false);
+            dxl.goalPosition(rotator_ids[id], ROTATOR_MAX_POS);
+        }        
     }
 }
 string read_until_delimiter(char delimiter){    
