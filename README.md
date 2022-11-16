@@ -1,6 +1,5 @@
-<<<<<<< HEAD
-# RRobot
-SNU-Rod to Rod manouvering robot
-=======
-# RRbot
->>>>>>> 38442e2c41c071be5b96ae7cd90f067447f98280
+# RRobot (Rod to Rod manouvering rOBOT)
+Undergraduate Independent Study 1, 2 (course 054.001, 054.002)in SNU   
+
+>Advised by _Prof. Yong-Lae Park_ (https://softrobotics.snu.ac.kr/people.php)   
+>Contributed by __Seongheon Hong, Geunje Cheon, Jaewon Lee__
