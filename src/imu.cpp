@@ -99,7 +99,7 @@ void print_mag_calibration() {
 
 void print_rpy() {
   DEBUG_SERIAL.print("Yaw, Pitch, Roll: ");
-  DEBUG_SERIAL.print(yaw, 2);
+  DEBUG_SERIAL.print(yaw, 2);  
   DEBUG_SERIAL.print(", ");
   DEBUG_SERIAL.print(pitch, 2);
   DEBUG_SERIAL.print(", ");

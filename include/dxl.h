@@ -3,8 +3,13 @@
 #include <Dynamixel.h>
 #include <vector>
 
+
+#define DEBUG_SERIAL                Serial
 #define DXL_SERIAL                  Serial3
-#define SBUS_SERIAL                 Serial2
+
+
+
+
 #define DXL_SERIAL_BAUDRATE         2000000
 #define DXL_DEGREE2POS              11.3777778 // 4096.0/360.0
 

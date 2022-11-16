@@ -9,7 +9,7 @@ void dxl_setup() {
   for (uint8_t id: joint_ids) {
     dxl.addModel<DxlModel::X>(id);
   }
-  delay(2000);
+  delay(1000);
 
   bool connected = true;
   for (uint8_t id: joint_ids) {
@@ -43,8 +43,8 @@ void set_dxl_parameters() {
     delay(10);
   }
   for (uint8_t id: rotator_ids) {
-    dxl.positionPGain(id, 1600);    
-    dxl.positionIGain(id, 120);    
+    dxl.shutdown(id, 0b00010010);
+    dxl.torqueEnable(id, true);  
     delay(10);
   }
 }
@@ -66,7 +66,7 @@ void initialize_joint_positions(std::vector<uint8_t> id_set, int position) {
     dxl.verbose(id);
     delay(10);
   }
-  while (1) {
+  while (true) {
     bool initialized = true;
     for (uint8_t id: id_set) {
       initialized = initialized && !dxl.moving(id);
